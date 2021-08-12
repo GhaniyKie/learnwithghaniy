@@ -1,0 +1,52 @@
+baseUrl: /
+languageCode: en-us
+theme: terminal
+paginate: 5
+enableEmoji: true
+enableGitInfo: true
+
+
+params:
+  # dir name of your blog content (default is `content/posts`)
+  contentTypeName: posts
+  # ["orange", "blue", "red", "green", "pink"]
+  themeColor: blue
+  # if you set this to 0, only submenu trigger will be visible
+  showMenuItems: 5
+  # show selector to switch language
+  showLanguageSelector: false
+  # set theme to full screen width
+  fullWidthTheme: false
+  # center theme with default width
+  centerTheme: true
+  showLastUpdated: true
+
+
+languages:
+  en:
+    languageName: English
+    title: Learn With Ghaniy
+    subtitle: Your site subtitle
+    keywords: ''
+    menuMore: Show more
+    readMore: Read more
+    readOtherPosts: Read other posts
+
+    params:
+      logo:
+        logoText: Learn With Ghaniy
+        logoHomeLink: /
+      site:
+        copyright: Abdul Hakim Ghaniy
+
+    menu:
+      main:
+      # - identifier: about
+      #   name: About
+      #   url: /about
+      # - identifier: showcase
+      #   name: Showcase
+      #   url: /showcase
+      - identifier: projects
+        name: Projects
+        url: /projects
