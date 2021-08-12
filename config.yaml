@@ -20,6 +20,7 @@ params:
   # center theme with default width
   centerTheme: true
   showLastUpdated: true
+  updatedDatePrefix: "Diupdate pada"
 
 
 languages:
@@ -41,12 +42,9 @@ languages:
 
     menu:
       main:
-      # - identifier: about
-      #   name: About
-      #   url: /about
-      # - identifier: showcase
-      #   name: Showcase
-      #   url: /showcase
       - identifier: projects
         name: Projects
         url: /projects
+      - identifier: posts
+        name: Posts
+        url: /posts
