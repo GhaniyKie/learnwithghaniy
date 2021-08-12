@@ -1,7 +1,5 @@
 {{ define "main" }}
-  <h1>Hello there !</h1>
-  <p>Selamat datang di website ini. Silahkan eksplor artikel di menu Posts atau lihat Projects yang sudah saya buat. <br><span>Terimakasih.</span></p>
-  <hr>
+  {{partial "index_header.html"}}
   {{ if .Content }}
     <div class="index-content {{ if .Params.framed -}}framed{{- end -}}">
       {{ .Content }}
