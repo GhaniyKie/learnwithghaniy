@@ -1,8 +1,9 @@
 ---
-title: Project
+title: Projects
+# draft: true
 ---
 
-
+<!-- 
 {{< image src="/img/hello.jpg" alt="Hello Friend" position="left" style="border-radius: 1px; width: 400px;" >}}
 
 {{< code language="css" title="Really cool snippet" id="1" expand="Show" collapse="Hide" isCollapsed="true" >}}
@@ -31,4 +32,6 @@ pre {
 
 
 :see_no_evil:
-:clap:
+:clap: -->
+
+HERE MY PROJECT(s) SHOWN ! :clap:
