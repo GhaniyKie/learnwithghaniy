@@ -79,5 +79,9 @@
 <meta name="robots" content="noindex, nofollow">
 {{ end }}
 
+<!-- GOOGLE ANALYTICS -->
+{{ template "_internal/google_analytics.html" . }}
+{{ template "_internal/google_analytics_async.html" . }}
+
 <!-- Extended head section-->
 {{ partial "extended_head.html" . }}

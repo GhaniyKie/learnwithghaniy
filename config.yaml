@@ -5,7 +5,7 @@ paginate: 5
 enableEmoji: true
 enableGitInfo: true
 enableRobotsTXT: true
-
+googleAnalytics: G-7KF0D65LMQ
 
 params:
   # dir name of your blog content (default is `content/posts`)
