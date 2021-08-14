@@ -72,5 +72,12 @@
   <link href="{{ .RelPermalink }}" rel="alternate" type="application/json" title="{{ $.Site.Title }}" />
 {{ end }}
 
+<!-- ROBOTS -->
+{{ if eq (getenv "HUGO_ENV") "production" }}
+<meta name="robots" content="index, follow">
+{{ else }}
+<meta name="robots" content="noindex, nofollow">
+{{ end }}
+
 <!-- Extended head section-->
 {{ partial "extended_head.html" . }}

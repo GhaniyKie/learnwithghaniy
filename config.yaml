@@ -4,6 +4,7 @@ theme: terminal
 paginate: 5
 enableEmoji: true
 enableGitInfo: true
+enableRobotsTXT: true
 
 
 params:
@@ -48,3 +49,6 @@ languages:
       - identifier: posts
         name: Posts
         url: /posts
+      - identifier: about-me
+        name: About Me
+        url: /about-me
