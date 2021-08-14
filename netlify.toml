@@ -31,3 +31,15 @@ HUGO_VERSION = "0.87.0"
 
 [context.next.environment]
 HUGO_ENABLEGITINFO = "true"
+
+[[redirects]]
+from = "https://learnwithghaniy.netlify.app/*"
+to = "https://www.learnwithghaniy.web.id/:splat"
+status = 301
+force = true
+
+[[redirects]]
+from = "http://learnwithghaniy.netlify.app/*"
+to = "https://www.learnwithghaniy.web.id/:splat"
+status = 301
+force = true
