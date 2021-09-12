@@ -1,11 +1,27 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="description" content="{{ if .IsHome }}{{ $.Site.Params.Subtitle }}{{ else if .Description}}{{ .Description | plainify }}{{ else }}{{ .Summary | plainify }}{{ end }}" />
 <meta name="keywords" content="{{ with .Params.Keywords }}{{ delimit . ", " }}{{ else }}{{ $.Site.Params.Keywords }}{{ end }}" />
-<meta name="robots" content="noodp" />
-<link rel="canonical" href="{{ .Permalink }}" />
-
-{{ template "_internal/google_analytics.html" . }}
+<!-- ROBOTS -->
+{{ if eq (getenv "HUGO_ENV") "production" }}
+  {{ if or (or (eq .Section "tags") (eq .Section "categories")) (and (eq .Kind "page") (eq .Params.sitemap_exclude true)) }}
+    <meta name="robots" content="noindex, follow">
+    <meta name="googlebot" content="noindex, follow" />
+  {{ else if (and (.RegularPages) (not .IsHome))}}
+    <meta name="robots" content="noindex, follow">
+    <meta name="googlebot" content="noindex, follow" />
+  {{ else if (and (.RegularPages) (.IsHome))}}
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow" />
+  {{ else }}
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow" />
+  {{ end }}
+{{ else }} <!-- IF ENV = test, production, staging-->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow" />
+{{ end }}
 
 <!-- Theme CSS -->
 <link rel="stylesheet" href="{{ "assets/style.css" | absURL }}">
@@ -28,6 +44,18 @@
   <link rel="shortcut icon" href="{{ printf "img/favicon/%s.png" ($.Site.Params.ThemeColor | default "orange") | absURL }}">
 {{ end }}
 
+<!-- <link rel="shortcut icon" href="/favicon.ico" />
+<link rel="icon" type="image/x-icon" sizes="16x16 32x32" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="152x152" href="/favicons/favicon-152-precomposed.png" />
+<link rel="apple-touch-icon" sizes="144x144" href="/favicons/favicon-144-precomposed.png" />
+<link rel="apple-touch-icon" sizes="120x120" href="/favicons/favicon-120-precomposed.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="/favicons/favicon-114-precomposed.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/favicons/favicon-180-precomposed.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="/favicons/favicon-72-precomposed.png" />
+<link rel="apple-touch-icon" href="/favicons/favicon-57.png" />
+<link rel="icon" href="/favicons/favicon-32.png" sizes="32x32" />
+<link rel="icon" sizes="192x192" href="/favicons/favicon-192.png" /> -->
+
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary" />
 {{ if (isset $.Site.Params "twitter") }}
@@ -37,13 +65,29 @@
     <meta name="twitter:creator" content="{{ if .IsHome }}{{ $.Site.Params.Twitter.creator }}{{ else if isset .Params "authortwitter" }}{{ .Params.authorTwitter }}{{ else }}{{ .Params.Author }}{{ end }}" />
 {{ end }}
 
-<!-- OG data -->
-<meta property="og:locale" content="{{ $.Site.Language.Lang }}" />
-<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
+<!------------------------------------------ Open Graph (OG) data -------------------------------------------------->
+<!-- Title Tags -->
 <meta property="og:title" content="{{ if .IsHome }}{{ $.Site.Title }}{{ else }}{{ .Title }}{{ end }}">
-<meta property="og:description" content="{{ if .IsHome }}{{ $.Site.Params.Subtitle }}{{ else if .Description}}{{ .Description | plainify }}{{ else }}{{ .Summary | plainify }}{{ end }}" />
-<meta property="og:url" content="{{ .Permalink }}" />
+{{if .IsHome}}
+  <meta itemprop="name" content="{{ .Site.Title }}" />
+  <meta name="application-name" content="{{ .Site.Title }}" />
+{{ else }}
+  <meta itemprop="name" content="{{ .Title }} | {{ .Site.Title }}" />
+  <meta name="application-name" content="{{ .Title }} | {{ .Site.Title }}" />
+  {{ end }}
 <meta property="og:site_name" content="{{ $.Site.Title }}" />
+<!-- Description Tags -->
+<meta name="description" content="{{ .Params.description }}" />
+<meta itemprop="description" content="{{ .Params.description }}" />
+<meta property="og:description" content="{{ if .IsHome }}{{ $.Site.Params.Subtitle }}{{ else if .Description}}{{ .Description | plainify }}{{ else }}{{ .Summary | plainify }}{{ end }}" />
+<!-- Link Tags -->
+<base href="{{ .Permalink }}" />
+<link rel="canonical" href="{{ .Permalink }}" itemprop="url" />
+<meta name="url" content="{{ .Permalink }}" />
+<meta property="og:url" content="{{ .Permalink }}" />
+<!-- Language Tags -->
+<meta property="og:locale" content="{{ $.Site.Language.Lang }}" />
+<!-- Image Tags -->
 {{ if and (not .IsHome) (isset .Params "cover") }}
   <meta property="og:image" content="{{ .Param "cover" | absURL }}">
 {{ else }}
@@ -58,25 +102,87 @@
 {{ range .Params.categories }}
   <meta property="article:section" content="{{ . }}" />
 {{ end }}
+<!-- Type Tags -->
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
+<!-- Date Tags -->
 {{ if isset .Params "date" }}
-  <meta property="article:published_time" content="{{ time .Date }}" />
+  <meta property="og:updated_time" content={{ .Lastmod.Format "2006-01-02T15:04:05Z0700" | safeHTML }} />
+{{ end }}
+
+<!-- POSTS (ARTICLE) TAGS -->
+<!-- To make sure this renders only in the article page, we check the section -->
+{{ if or (eq .Section "posts") (eq .Section "projects") }}
+
+<!-- Pagination meta tags for list pages only -->
+{{ $paginator := .Paginate (where .Pages "Section" "posts") }} 
+{{ if $paginator }}
+  <link rel="first" href="{{ $paginator.First.URL }}" />
+  <link rel="last" href="{{ $paginator.Last.URL }}" />
+  {{ if $paginator.HasPrev }}
+    <link rel="prev" href="{{ $paginator.Prev.URL }}" />
+  {{end }}
+  {{ if $paginator.HasNext }}
+    <link rel="next" href="{{ $paginator.Next.URL }}" />
+  {{end }}
+{{end }}
+
+<meta property="og:type" content="article" />
+<meta property="article:publisher" content="{{ .Site.Params.facebook }}" />
+<meta property="og:article:published_time" content={{ .Date.Format "2006-01-02T15:04:05Z0700" | safeHTML }} />
+<meta property="article:published_time" content={{ .Date.Format "2006-01-02T15:04:05Z0700" | safeHTML }} />
+
+{{ with.Params.author }}
+  <meta property="og:article:author" content="{{humanize . }}" />
+  <meta property="article:author" content="{{humanize . }}" />
+  <meta name="author" content="{{humanize . }}" />
+{{ end }}
+
+{{ with.Params.category }}
+  <meta name="news_keywords" content="{{ index . 0 }}" />
+  <meta property="article:section" content="{{ index . 0 }}" />
+{{ end }}
+
+<script defer type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": {{ .Title }},
+    "author": {
+      "@type": "Person",
+      "name": "{{ .Site.Params.github }}"
+    },
+    "datePublished": "{{ .Date.Format "2006-01-02" }}",
+    "description": {{ .Description }},
+    "wordCount": {{ .WordCount }},
+    "mainEntityOfPage": "True",
+    "dateModified": "{{ .Lastmod.Format "2006-01-02" }}",
+    "image": {
+      "@type": "imageObject",
+      "url": "{{ with .Params.image }}{{ .Permalink }}{{ end }}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ .Site.Title }}",
+      "logo": {
+        "@type": "imageObject",
+        "url": ""
+      }
+    }
+  }
+</script>
 {{ end }}
 
 <!-- RSS -->
+<link rel="sitemap" type="application/xml" title="Sitemap" href='{{ "sitemap.xml" | absURL }}' />
+
 {{ with .OutputFormats.Get "RSS" }}
   <link href="{{ .RelPermalink }}" rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" />
+  <link href="{{ .RelPermalink }}" rel="feed" type="application/rss+xml" title="{{ $.Site.Title }}" />
 {{ end }}
 
 <!-- JSON Feed -->
 {{ with .OutputFormats.Get "json" }}
   <link href="{{ .RelPermalink }}" rel="alternate" type="application/json" title="{{ $.Site.Title }}" />
-{{ end }}
-
-<!-- ROBOTS -->
-{{ if eq (getenv "HUGO_ENV") "production" }}
-<meta name="robots" content="index, follow">
-{{ else }}
-<meta name="robots" content="noindex, nofollow">
 {{ end }}
 
 <!-- GOOGLE ANALYTICS -->

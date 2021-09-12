@@ -1,10 +1,14 @@
 baseUrl: https://www.learnwithghaniy.web.id/
+title: Learn With Ghaniy 
+subtitle: Let's learn for better world !
 languageCode: en-us
 theme: terminal
 paginate: 5
+
 enableEmoji: true
 enableGitInfo: true
 enableRobotsTXT: true
+canonifyURLs: true
 googleAnalytics: G-7KF0D65LMQ
 
 params:
@@ -22,14 +26,11 @@ params:
   centerTheme: true
   showLastUpdated: true
   updatedDatePrefix: "Diupdate pada"
-
+  author: Abdul Hakim Ghaniy
 
 languages:
   en:
     languageName: English
-    title: Learn With Ghaniy
-    subtitle: Your site subtitle
-    keywords: ''
     menuMore: Show more
     readMore: Read more
     readOtherPosts: Read other posts
@@ -39,10 +40,13 @@ languages:
         logoText: Learn With Ghaniy
         logoHomeLink: /
       site:
-        copyright: Abdul Hakim Ghaniy
+        copyright: Learn With Ghaniy
 
     menu:
       main:
+      - identifier: learn
+        name: Learn
+        url: /learn
       - identifier: projects
         name: Projects
         url: /projects

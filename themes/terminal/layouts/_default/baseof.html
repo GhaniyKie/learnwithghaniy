@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ $.Site.Language }}">
-<head>
+<html lang="{{ $.Site.Language }}" prefix="og: http://ogp.me/ns#">
+<head itemscope itemtype="https://schema.org/WebPage">
   {{ block "title" . }}
-    <title>{{ if .IsHome }}{{ $.Site.Title }}{{ else }}{{ .Title }} :: {{ $.Site.Title }}{{ end }}</title>
+    <title itemprop="name">{{ if .IsHome }}{{ $.Site.Title }}{{ else }}{{ .Title }} :: {{ $.Site.Title }}{{ end }}</title>
   {{ end }}
   {{ partial "head.html" . }}
 </head>

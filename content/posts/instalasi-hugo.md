@@ -1,10 +1,10 @@
 ---
 title: Instalasi HUGO di Ubuntu 20.04
-tags: [hugo, ubuntu, static-site]
-date: 2021-08-12
-keywords: ["ubuntu 20.04", "hugo", "install", "static page"]
 description: Berkenalan dengan SSG (Static Site Generator) serta Petunjuk instalasi Hugo v0.87.0 di Ubuntu 20.04
+date: 2021-08-12
 author: Abdul Hakim Ghaniy
+keywords: ["Ubuntu 20.04", "Hugo", "Install", "Static Page"]
+tags: [hugo, ubuntu, static-site]
 ---
 
 Sebelum kita mulai, alangkah baiknya kita ketahui dahulu apa itu Hugo, Static Site Generator, CMS dan Perbedaan Hugo dengan CMS _(Content Management System)_ lainnya.
