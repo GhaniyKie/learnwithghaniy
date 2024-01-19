@@ -33,13 +33,7 @@ HUGO_VERSION = "0.87.0"
 HUGO_ENABLEGITINFO = "true"
 
 [[redirects]]
-from = "https://learnwithghaniy.netlify.app/*"
-to = "https://www.learnwithghaniy.web.id/:splat"
-status = 301
-force = true
-
-[[redirects]]
-from = "http://learnwithghaniy.netlify.app/*"
+from = "https://learnwithghaniy.pages.dev/*"
 to = "https://www.learnwithghaniy.web.id/:splat"
 status = 301
 force = true
